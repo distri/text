@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>main</title>
+  <title>util</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="http://strd6.github.io/cdn/parallel/docco.css" />
@@ -18,9 +18,11 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="util">Util</h1>
+
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{applyStylesheet} = require <span class="string">"./util"</span></code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
 </div>
         </li>
         
@@ -30,24 +32,33 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Create an editor, send events back to parent.</p>
-
+              
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">TextEditor = require <span class="string">"./text"</span>
+            <div class="content"><pre><code class="lang-coffeescript">module.exports =
+  applyStylesheet: (style, id=<span class="string">"primary"</span>) -&gt;
+    styleNode = document.createElement(<span class="string">"style"</span>)
+    styleNode.innerHTML = style
+    styleNode.id = id
 
-template = require <span class="string">"./editor"</span>
+    <span class="keyword">if</span> previousStyleNode = document.head.querySelector(<span class="string">"style#<span class="subst">#{id}</span>"</span>)
+      previousStyleNode.parentNode.removeChild(prevousStyleNode)
 
-document.body.appendChild(template())
+    document.head.appendChild(styleNode)
 
-el = document.querySelector(<span class="string">".editor"</span>)
+  extend: (target, sources...) -&gt;
+    <span class="keyword">for</span> source <span class="keyword">in</span> sources
+      <span class="keyword">for</span> name <span class="keyword">of</span> source
+        target[name] = source[name]
 
-console.log el
+    <span class="keyword">return</span> target
 
-TextEditor
-  text: <span class="string">"Hellow"</span>
-  el: el
+  defaults: (target, objects...) -&gt;
+    <span class="keyword">for</span> object <span class="keyword">in</span> objects
+      <span class="keyword">for</span> name <span class="keyword">of</span> object
+        <span class="keyword">unless</span> target.hasOwnProperty(name)
+          target[name] = object[name]
 
-applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
+    <span class="keyword">return</span> target</code></pre>
 </div>
         </li>
         
