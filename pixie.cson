@@ -1,3 +1,6 @@
 remoteDependencies: [
   "https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"
 ]
+dependencies:
+  observable: "distri/observable:v0.1.0"
+  postmaster: "distri/postmaster:v0.2.1"

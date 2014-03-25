@@ -1,6 +1,9 @@
 Text
 ====
 
+    {extend, defaults} = require "./util"
+    Observable = require "observable"
+
 `Text` is a model for editing a text file. Currently it uses the Ace
 editor, but we may switch in the future. All the editor specific things live in
 here.
@@ -10,7 +13,8 @@ here.
         mode: "coffee"
         text: ""
 
-      self = Model(I)
+      self =
+        text: Observable I.text
 
 We can't use ace on a div not in the DOM so we need to be sure to pass one in.
 
@@ -42,10 +46,6 @@ cursor position or selection.
 
       reset(I.text)
 
-Our text attribute is observable so clients can track changes.
-
-      self.attrObservable "text"
-
 We modify our text by listening to change events from Ace.
 
 TODO: Remove these `updating` hacks.
@@ -65,20 +65,9 @@ modifications. Its a bi-directional binding.
 
 We expose some properties and methods.
 
-      self.extend
+      extend self,
         el: el
         editor: editor
         reset: reset
 
       return self
-
-Helpers
--------
-
-    defaults = (target, objects...) ->
-      for object in objects
-        for name of object
-          unless target.hasOwnProperty(name)
-            target[name] = object[name]
-  
-      return target

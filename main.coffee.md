@@ -1,4 +1,5 @@
 
+    {applyStylesheet} = require "./util"
 
 Create an editor, send events back to parent.
 
@@ -15,3 +16,5 @@ Create an editor, send events back to parent.
     TextEditor
       text: "Hellow"
       el: el
+
+    applyStylesheet(require "./style")
