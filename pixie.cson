@@ -3,4 +3,4 @@ remoteDependencies: [
 ]
 dependencies:
   observable: "distri/observable:v0.1.0"
-  postmaster: "distri/postmaster:v0.2.1"
+  postmaster: "distri/postmaster:v0.2.2"

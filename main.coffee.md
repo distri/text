@@ -1,3 +1,5 @@
+Text Editor Value Widget
+========================
 
     {applyStylesheet} = require "./util"
 
@@ -13,8 +15,17 @@ Create an editor, send events back to parent.
     
     console.log el
     
-    TextEditor
+    editor = TextEditor
       text: "Hellow"
       el: el
 
     applyStylesheet(require "./style")
+
+Use the postmaster to send value to our parent, store our current value in it as well.
+
+    postmaster = require("postmaster")()
+    postmaster.value = editor.text
+
+    postmaster.value.observe (newValue) ->
+      postmaster.sendToParent
+        value: newValue
