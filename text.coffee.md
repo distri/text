@@ -67,7 +67,11 @@ We expose some properties and methods.
         reset: reset
         focus: ->
           editor.focus()
+
+          return
         mode: (mode) ->
           editor.getSession().setMode("ace/mode/#{mode}")
+
+          return
 
       return self
