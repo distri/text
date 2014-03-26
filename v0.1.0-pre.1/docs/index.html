@@ -91,8 +91,7 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">options</span></span> = ({mode}={}) -&gt;
-  postmaster.sendToParent
-    log: arguments
+  log <span class="string">"mode is <span class="subst">#{mode}</span>"</span>
 
   <span class="keyword">if</span> mode?
     editor.mode mode</code></pre>
@@ -114,7 +113,11 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 editor.text.observe (newValue) -&gt;
   <span class="keyword">unless</span> updating
     postmaster.sendToParent
-      value: newValue</code></pre>
+      value: newValue
+
+<span class="function"><span class="title">log</span></span> = (data) -&gt;
+  postmaster.sendToParent
+    log: data</code></pre>
 </div>
         </li>
         
