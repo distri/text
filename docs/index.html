@@ -55,8 +55,6 @@ document.body.appendChild(template())
 
 el = document.querySelector(<span class="string">".editor"</span>)
 
-console.log el
-
 editor = TextEditor
   text: <span class="string">"Hellow"</span>
   el: el
@@ -74,12 +72,17 @@ applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
               <p>Use the postmaster to send value to our parent, store our current value in it as well.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">postmaster = require(<span class="string">"postmaster"</span>)()
-postmaster.value = editor.text
+            <div class="content"><pre><code class="lang-coffeescript">updating = <span class="literal">false</span>
+postmaster = require(<span class="string">"postmaster"</span>)()
+postmaster.<span class="function"><span class="title">value</span></span> = (newValue) -&gt;
+  updating = <span class="literal">true</span>
+  editor.text(newValue)
+  updating = <span class="literal">false</span>
 
-postmaster.value.observe (newValue) -&gt;
-  postmaster.sendToParent
-    value: newValue</code></pre>
+editor.text.observe (newValue) -&gt;
+  <span class="keyword">unless</span> updating
+    postmaster.sendToParent
+      value: newValue</code></pre>
 </div>
         </li>
         

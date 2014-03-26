@@ -12,16 +12,16 @@ window["distri/text:master"]({
       "content": "text\n====\n\nEdit text documents within a value widget.\n",
       "type": "blob"
     },
-    "text.coffee.md": {
-      "path": "text.coffee.md",
+    "editor.haml": {
+      "path": "editor.haml",
       "mode": "100644",
-      "content": "Text\n====\n\n    {extend, defaults} = require \"./util\"\n    Observable = require \"observable\"\n\n`Text` is a model for editing a text file. Currently it uses the Ace\neditor, but we may switch in the future. All the editor specific things live in\nhere.\n\n    module.exports = (I) ->\n      defaults I,\n        mode: \"coffee\"\n        text: \"\"\n\n      self =\n        text: Observable I.text\n\nWe can't use ace on a div not in the DOM so we need to be sure to pass one in.\n\n      el = I.el\n\nWe can't serialize DOM elements so we need to be sure to delete it.\n\n      delete I.el\n\nHere we create and configure the Ace text editor.\n\nTODO: Load these options from a preferences somewhere.\n\n      editor = ace.edit(el)\n      editor.setFontSize(\"16px\")\n      editor.setTheme(\"ace/theme/chrome\")\n      editor.getSession().setUseWorker(false)\n      editor.getSession().setMode(\"ace/mode/#{I.mode}\")\n      editor.getSession().setUseSoftTabs(true)\n      editor.getSession().setTabSize(2)\n\n`reset` Sets the content of the editor to the given content and also resets any\ncursor position or selection.\n\n      reset = (content=\"\") ->\n        editor.setValue(content)\n        editor.moveCursorTo(0, 0)\n        editor.session.selection.clearSelection()\n\n      reset(I.text)\n\nWe modify our text by listening to change events from Ace.\n\nTODO: Remove these `updating` hacks.\n\n      updating = false\n      editor.getSession().on 'change', ->\n        updating = true\n        self.text(editor.getValue())\n        updating = false\n\nWe also observe any changes to `text` ourselves to stay up to date with outside\nmodifications. Its a bi-directional binding.\n\n      self.text.observe (newValue) ->\n        unless updating\n          reset(newValue)\n\nWe expose some properties and methods.\n\n      extend self,\n        el: el\n        editor: editor\n        reset: reset\n\n      return self\n",
+      "content": ".editor-wrap\n  .editor\n",
       "type": "blob"
     },
     "main.coffee.md": {
       "path": "main.coffee.md",
       "mode": "100644",
-      "content": "Text Editor Value Widget\n========================\n\n    {applyStylesheet} = require \"./util\"\n\nCreate an editor, send events back to parent.\n\n    TextEditor = require \"./text\"\n\n    template = require \"./editor\"\n\n    document.body.appendChild(template())\n\n    el = document.querySelector(\".editor\")\n    \n    console.log el\n    \n    editor = TextEditor\n      text: \"Hellow\"\n      el: el\n\n    applyStylesheet(require \"./style\")\n\nUse the postmaster to send value to our parent, store our current value in it as well.\n\n    postmaster = require(\"postmaster\")()\n    postmaster.value = editor.text\n\n    postmaster.value.observe (newValue) ->\n      postmaster.sendToParent\n        value: newValue\n",
+      "content": "Text Editor Value Widget\n========================\n\n    {applyStylesheet} = require \"./util\"\n\nCreate an editor, send events back to parent.\n\n    TextEditor = require \"./text\"\n\n    template = require \"./editor\"\n\n    document.body.appendChild(template())\n\n    el = document.querySelector(\".editor\")\n\n    editor = TextEditor\n      text: \"Hellow\"\n      el: el\n\n    applyStylesheet(require \"./style\")\n\nUse the postmaster to send value to our parent, store our current value in it as well.\n\n    updating = false\n    postmaster = require(\"postmaster\")()\n    postmaster.value = (newValue) ->\n      updating = true\n      editor.text(newValue)\n      updating = false\n\n    editor.text.observe (newValue) ->\n      unless updating\n        postmaster.sendToParent\n          value: newValue\n",
       "type": "blob"
     },
     "pixie.cson": {
@@ -30,10 +30,16 @@ window["distri/text:master"]({
       "content": "remoteDependencies: [\n  \"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n",
       "type": "blob"
     },
-    "editor.haml": {
-      "path": "editor.haml",
+    "style.styl": {
+      "path": "style.styl",
       "mode": "100644",
-      "content": ".editor-wrap\n  .editor\n",
+      "content": "html\n  height: 100%\n\nbody\n  height: 100%\n  margin: 0\n\n.editor-wrap\n  background-color: white\n  width: 100%\n  height: 100%\n  position: relative\n\n  & > div\n    position: absolute\n    top: 0\n    left: 0\n    right: 0\n    bottom: 0\n",
+      "type": "blob"
+    },
+    "text.coffee.md": {
+      "path": "text.coffee.md",
+      "mode": "100644",
+      "content": "Text\n====\n\n    {extend, defaults} = require \"./util\"\n    Observable = require \"observable\"\n\n`Text` is a model for editing a text file. Currently it uses the Ace\neditor, but we may switch in the future. All the editor specific things live in\nhere.\n\n    module.exports = (I) ->\n      defaults I,\n        mode: \"coffee\"\n        text: \"\"\n\n      self =\n        text: Observable I.text\n\nWe can't use ace on a div not in the DOM so we need to be sure to pass one in.\n\n      el = I.el\n\nWe can't serialize DOM elements so we need to be sure to delete it.\n\n      delete I.el\n\nHere we create and configure the Ace text editor.\n\nTODO: Load these options from a preferences somewhere.\n\n      editor = ace.edit(el)\n      editor.setFontSize(\"16px\")\n      editor.setTheme(\"ace/theme/chrome\")\n      editor.getSession().setUseWorker(false)\n      editor.getSession().setMode(\"ace/mode/#{I.mode}\")\n      editor.getSession().setUseSoftTabs(true)\n      editor.getSession().setTabSize(2)\n\n`reset` Sets the content of the editor to the given content and also resets any\ncursor position or selection.\n\n      reset = (content=\"\") ->\n        editor.setValue(content)\n        editor.moveCursorTo(0, 0)\n        editor.session.selection.clearSelection()\n\n      reset(I.text)\n\nWe modify our text by listening to change events from Ace.\n\nTODO: Remove these `updating` hacks.\n\n      updating = false\n      editor.getSession().on 'change', ->\n        updating = true\n        self.text(editor.getValue())\n        updating = false\n\nWe also observe any changes to `text` ourselves to stay up to date with outside\nmodifications. Its a bi-directional binding.\n\n      self.text.observe (newValue) ->\n        unless updating\n          reset(newValue)\n\nWe expose some properties and methods.\n\n      extend self,\n        el: el\n        editor: editor\n        reset: reset\n\n      return self\n",
       "type": "blob"
     },
     "util.coffee.md": {
@@ -41,23 +47,17 @@ window["distri/text:master"]({
       "mode": "100644",
       "content": "Util\n====\n\n    module.exports =\n      applyStylesheet: (style, id=\"primary\") ->\n        styleNode = document.createElement(\"style\")\n        styleNode.innerHTML = style\n        styleNode.id = id\n\n        if previousStyleNode = document.head.querySelector(\"style##{id}\")\n          previousStyleNode.parentNode.removeChild(prevousStyleNode)\n\n        document.head.appendChild(styleNode)\n\n      extend: (target, sources...) ->\n        for source in sources\n          for name of source\n            target[name] = source[name]\n    \n        return target\n  \n      defaults: (target, objects...) ->\n        for object in objects\n          for name of object\n            unless target.hasOwnProperty(name)\n              target[name] = object[name]\n    \n        return target\n",
       "type": "blob"
-    },
-    "style.styl": {
-      "path": "style.styl",
-      "mode": "100644",
-      "content": "html\n  height: 100%\n\nbody\n  height: 100%\n  margin: 0\n\n.editor-wrap\n  background-color: white\n  width: 100%\n  height: 100%\n  position: relative\n\n  & > div\n    position: absolute\n    top: 0\n    left: 0\n    right: 0\n    bottom: 0\n",
-      "type": "blob"
     }
   },
   "distribution": {
-    "text": {
-      "path": "text",
-      "content": "(function() {\n  var Observable, defaults, extend, _ref;\n\n  _ref = require(\"./util\"), extend = _ref.extend, defaults = _ref.defaults;\n\n  Observable = require(\"observable\");\n\n  module.exports = function(I) {\n    var editor, el, reset, self, updating;\n    defaults(I, {\n      mode: \"coffee\",\n      text: \"\"\n    });\n    self = {\n      text: Observable(I.text)\n    };\n    el = I.el;\n    delete I.el;\n    editor = ace.edit(el);\n    editor.setFontSize(\"16px\");\n    editor.setTheme(\"ace/theme/chrome\");\n    editor.getSession().setUseWorker(false);\n    editor.getSession().setMode(\"ace/mode/\" + I.mode);\n    editor.getSession().setUseSoftTabs(true);\n    editor.getSession().setTabSize(2);\n    reset = function(content) {\n      if (content == null) {\n        content = \"\";\n      }\n      editor.setValue(content);\n      editor.moveCursorTo(0, 0);\n      return editor.session.selection.clearSelection();\n    };\n    reset(I.text);\n    updating = false;\n    editor.getSession().on('change', function() {\n      updating = true;\n      self.text(editor.getValue());\n      return updating = false;\n    });\n    self.text.observe(function(newValue) {\n      if (!updating) {\n        return reset(newValue);\n      }\n    });\n    extend(self, {\n      el: el,\n      editor: editor,\n      reset: reset\n    });\n    return self;\n  };\n\n}).call(this);\n",
+    "editor": {
+      "path": "editor",
+      "content": "Runtime = require(\"/_lib/hamljr_runtime\");\n\nmodule.exports = (function(data) {\n  return (function() {\n    var __runtime;\n    __runtime = Runtime(this);\n    __runtime.push(document.createDocumentFragment());\n    __runtime.push(document.createElement(\"div\"));\n    __runtime.classes(\"editor-wrap\");\n    __runtime.push(document.createElement(\"div\"));\n    __runtime.classes(\"editor\");\n    __runtime.pop();\n    __runtime.pop();\n    return __runtime.pop();\n  }).call(data);\n});\n",
       "type": "blob"
     },
     "main": {
       "path": "main",
-      "content": "(function() {\n  var TextEditor, applyStylesheet, editor, el, postmaster, template;\n\n  applyStylesheet = require(\"./util\").applyStylesheet;\n\n  TextEditor = require(\"./text\");\n\n  template = require(\"./editor\");\n\n  document.body.appendChild(template());\n\n  el = document.querySelector(\".editor\");\n\n  console.log(el);\n\n  editor = TextEditor({\n    text: \"Hellow\",\n    el: el\n  });\n\n  applyStylesheet(require(\"./style\"));\n\n  postmaster = require(\"postmaster\")();\n\n  postmaster.value = editor.text;\n\n  postmaster.value.observe(function(newValue) {\n    return postmaster.sendToParent({\n      value: newValue\n    });\n  });\n\n}).call(this);\n",
+      "content": "(function() {\n  var TextEditor, applyStylesheet, editor, el, postmaster, template, updating;\n\n  applyStylesheet = require(\"./util\").applyStylesheet;\n\n  TextEditor = require(\"./text\");\n\n  template = require(\"./editor\");\n\n  document.body.appendChild(template());\n\n  el = document.querySelector(\".editor\");\n\n  editor = TextEditor({\n    text: \"Hellow\",\n    el: el\n  });\n\n  applyStylesheet(require(\"./style\"));\n\n  updating = false;\n\n  postmaster = require(\"postmaster\")();\n\n  postmaster.value = function(newValue) {\n    updating = true;\n    editor.text(newValue);\n    return updating = false;\n  };\n\n  editor.text.observe(function(newValue) {\n    if (!updating) {\n      return postmaster.sendToParent({\n        value: newValue\n      });\n    }\n  });\n\n}).call(this);\n",
       "type": "blob"
     },
     "pixie": {
@@ -65,19 +65,19 @@ window["distri/text:master"]({
       "content": "module.exports = {\"remoteDependencies\":[\"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\",\"postmaster\":\"distri/postmaster:v0.2.2\"}};",
       "type": "blob"
     },
-    "editor": {
-      "path": "editor",
-      "content": "Runtime = require(\"/_lib/hamljr_runtime\");\n\nmodule.exports = (function(data) {\n  return (function() {\n    var __runtime;\n    __runtime = Runtime(this);\n    __runtime.push(document.createDocumentFragment());\n    __runtime.push(document.createElement(\"div\"));\n    __runtime.classes(\"editor-wrap\");\n    __runtime.push(document.createElement(\"div\"));\n    __runtime.classes(\"editor\");\n    __runtime.pop();\n    __runtime.pop();\n    return __runtime.pop();\n  }).call(data);\n});\n",
+    "style": {
+      "path": "style",
+      "content": "module.exports = \"html {\\n  height: 100%;\\n}\\n\\nbody {\\n  height: 100%;\\n  margin: 0;\\n}\\n\\n.editor-wrap {\\n  background-color: white;\\n  width: 100%;\\n  height: 100%;\\n  position: relative;\\n}\\n\\n.editor-wrap > div {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n}\";",
+      "type": "blob"
+    },
+    "text": {
+      "path": "text",
+      "content": "(function() {\n  var Observable, defaults, extend, _ref;\n\n  _ref = require(\"./util\"), extend = _ref.extend, defaults = _ref.defaults;\n\n  Observable = require(\"observable\");\n\n  module.exports = function(I) {\n    var editor, el, reset, self, updating;\n    defaults(I, {\n      mode: \"coffee\",\n      text: \"\"\n    });\n    self = {\n      text: Observable(I.text)\n    };\n    el = I.el;\n    delete I.el;\n    editor = ace.edit(el);\n    editor.setFontSize(\"16px\");\n    editor.setTheme(\"ace/theme/chrome\");\n    editor.getSession().setUseWorker(false);\n    editor.getSession().setMode(\"ace/mode/\" + I.mode);\n    editor.getSession().setUseSoftTabs(true);\n    editor.getSession().setTabSize(2);\n    reset = function(content) {\n      if (content == null) {\n        content = \"\";\n      }\n      editor.setValue(content);\n      editor.moveCursorTo(0, 0);\n      return editor.session.selection.clearSelection();\n    };\n    reset(I.text);\n    updating = false;\n    editor.getSession().on('change', function() {\n      updating = true;\n      self.text(editor.getValue());\n      return updating = false;\n    });\n    self.text.observe(function(newValue) {\n      if (!updating) {\n        return reset(newValue);\n      }\n    });\n    extend(self, {\n      el: el,\n      editor: editor,\n      reset: reset\n    });\n    return self;\n  };\n\n}).call(this);\n",
       "type": "blob"
     },
     "util": {
       "path": "util",
       "content": "(function() {\n  var __slice = [].slice;\n\n  module.exports = {\n    applyStylesheet: function(style, id) {\n      var previousStyleNode, styleNode;\n      if (id == null) {\n        id = \"primary\";\n      }\n      styleNode = document.createElement(\"style\");\n      styleNode.innerHTML = style;\n      styleNode.id = id;\n      if (previousStyleNode = document.head.querySelector(\"style#\" + id)) {\n        previousStyleNode.parentNode.removeChild(prevousStyleNode);\n      }\n      return document.head.appendChild(styleNode);\n    },\n    extend: function() {\n      var name, source, sources, target, _i, _len;\n      target = arguments[0], sources = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n      for (_i = 0, _len = sources.length; _i < _len; _i++) {\n        source = sources[_i];\n        for (name in source) {\n          target[name] = source[name];\n        }\n      }\n      return target;\n    },\n    defaults: function() {\n      var name, object, objects, target, _i, _len;\n      target = arguments[0], objects = 2 <= arguments.length ? __slice.call(arguments, 1) : [];\n      for (_i = 0, _len = objects.length; _i < _len; _i++) {\n        object = objects[_i];\n        for (name in object) {\n          if (!target.hasOwnProperty(name)) {\n            target[name] = object[name];\n          }\n        }\n      }\n      return target;\n    }\n  };\n\n}).call(this);\n",
-      "type": "blob"
-    },
-    "style": {
-      "path": "style",
-      "content": "module.exports = \"html {\\n  height: 100%;\\n}\\n\\nbody {\\n  height: 100%;\\n  margin: 0;\\n}\\n\\n.editor-wrap {\\n  background-color: white;\\n  width: 100%;\\n  height: 100%;\\n  position: relative;\\n}\\n\\n.editor-wrap > div {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n}\";",
       "type": "blob"
     },
     "_lib/hamljr_runtime": {
@@ -157,8 +157,8 @@ window["distri/text:master"]({
     "labels_url": "https://api.github.com/repos/distri/text/labels{/name}",
     "releases_url": "https://api.github.com/repos/distri/text/releases{/id}",
     "created_at": "2014-03-25T00:38:39Z",
-    "updated_at": "2014-03-25T00:38:40Z",
-    "pushed_at": "2014-03-25T00:38:40Z",
+    "updated_at": "2014-03-25T22:26:41Z",
+    "pushed_at": "2014-03-25T22:26:40Z",
     "git_url": "git://github.com/distri/text.git",
     "ssh_url": "git@github.com:distri/text.git",
     "clone_url": "https://github.com/distri/text.git",
@@ -167,7 +167,7 @@ window["distri/text:master"]({
     "size": 0,
     "stargazers_count": 0,
     "watchers_count": 0,
-    "language": null,
+    "language": "CSS",
     "has_issues": true,
     "has_downloads": true,
     "has_wiki": true,
