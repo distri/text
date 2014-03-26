@@ -30,8 +30,10 @@ Use the postmaster to send value to our parent, store our current value in it as
 
 Setting the mode is currently our only option.
 
-    postmaster.options = ({mode}={}) ->
-      log "mode is #{mode}"
+    postmaster.options = (options) ->
+      log options
+
+      {mode} = options
 
       if mode?
         editor.mode mode
