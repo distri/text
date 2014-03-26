@@ -31,8 +31,7 @@ Use the postmaster to send value to our parent, store our current value in it as
 Setting the mode is currently our only option.
 
     postmaster.options = ({mode}={}) ->
-      postmaster.sendToParent
-        log: arguments
+      log "mode is #{mode}"
 
       if mode?
         editor.mode mode
@@ -46,3 +45,7 @@ Expose a focus method to our parent.
       unless updating
         postmaster.sendToParent
           value: newValue
+
+    log = (data) ->
+      postmaster.sendToParent
+        log: data
