@@ -20,10 +20,6 @@ We can't use ace on a div not in the DOM so we need to be sure to pass one in.
 
       el = I.el
 
-We can't serialize DOM elements so we need to be sure to delete it.
-
-      delete I.el
-
 Here we create and configure the Ace text editor.
 
 TODO: Load these options from a preferences somewhere.
@@ -69,5 +65,9 @@ We expose some properties and methods.
         el: el
         editor: editor
         reset: reset
+        focus: ->
+          editor.focus()
+        mode: (mode) ->
+          editor.getSession().setMode("ace/mode/#{mode}")
 
       return self

@@ -28,6 +28,17 @@ Use the postmaster to send value to our parent, store our current value in it as
       editor.text(newValue)
       updating = false
 
+Setting the mode is currently our only option.
+
+    postmaster.options = ({mode}={}) ->
+      if mode?
+        editor.mode mode
+
+Expose a focus method to our parent.
+
+    postmaster.focus = ->
+      editor.focus()
+
     editor.text.observe (newValue) ->
       unless updating
         postmaster.sendToParent
