@@ -77,7 +77,36 @@ postmaster = require(<span class="string">"postmaster"</span>)()
 postmaster.<span class="function"><span class="title">value</span></span> = (newValue) -&gt;
   updating = <span class="literal">true</span>
   editor.text(newValue)
-  updating = <span class="literal">false</span>
+  updating = <span class="literal">false</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Setting the mode is currently our only option.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">options</span></span> = ({mode}={}) -&gt;
+  <span class="keyword">if</span> mode?
+    editor.mode mode</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Expose a focus method to our parent.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">focus</span></span> = -&gt;
+  editor.focus()
 
 editor.text.observe (newValue) -&gt;
   <span class="keyword">unless</span> updating
