@@ -31,7 +31,9 @@ Use the postmaster to send value to our parent, store our current value in it as
 Setting the mode is currently our only option.
 
     postmaster.options = ({mode}={}) ->
-      console.log arguments
+      postmaster.sendToParent
+        log: arguments
+
       if mode?
         editor.mode mode
 
