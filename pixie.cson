@@ -1,3 +1,4 @@
+version: "0.1.0-pre.0"
 remoteDependencies: [
   "https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"
 ]
