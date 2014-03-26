@@ -193,7 +193,7 @@
     "pixie.cson": {
       "path": "pixie.cson",
       "mode": "100644",
-      "content": "version: \"0.1.0-pre.2\"\nremoteDependencies: [\n  \"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n",
+      "content": "version: \"0.1.0-pre.3\"\nremoteDependencies: [\n  \"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n",
       "type": "blob"
     },
     "style.styl": {
@@ -228,7 +228,7 @@
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.1.0-pre.2\",\"remoteDependencies\":[\"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\",\"postmaster\":\"distri/postmaster:v0.2.2\"}};",
+      "content": "module.exports = {\"version\":\"0.1.0-pre.3\",\"remoteDependencies\":[\"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\",\"postmaster\":\"distri/postmaster:v0.2.2\"}};",
       "type": "blob"
     },
     "style": {
@@ -255,7 +255,7 @@
   "progenitor": {
     "url": "http://strd6.github.io/editor/"
   },
-  "version": "0.1.0-pre.2",
+  "version": "0.1.0-pre.3",
   "entryPoint": "main",
   "remoteDependencies": [
     "https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"
