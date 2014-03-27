@@ -161,8 +161,12 @@ modifications. Its a bi-directional binding.</p>
     reset: reset
     focus: -&gt;
       editor.focus()
+
+      <span class="keyword">return</span>
     mode: (mode) -&gt;
       editor.getSession().setMode(<span class="string">"ace/mode/<span class="subst">#{mode}</span>"</span>)
+
+      <span class="keyword">return</span>
 
   <span class="keyword">return</span> self</code></pre>
 </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache?1395873679374">
+<html manifest="manifest.appcache?1395949884859">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
@@ -198,13 +198,13 @@ require('./main')
     "main.coffee.md": {
       "path": "main.coffee.md",
       "mode": "100644",
-      "content": "Text Editor Value Widget\n========================\n\n    {applyStylesheet} = require \"./util\"\n\nCreate an editor, send events back to parent.\n\n    TextEditor = require \"./text\"\n\n    template = require \"./editor\"\n\n    document.body.appendChild(template())\n\n    el = document.querySelector(\".editor\")\n\n    editor = TextEditor\n      text: \"Hellow\"\n      el: el\n\n    applyStylesheet(require \"./style\")\n\nUse the postmaster to send value to our parent, store our current value in it as well.\n\n    updating = false\n    postmaster = require(\"postmaster\")()\n    postmaster.value = (newValue) ->\n      updating = true\n      editor.text(newValue)\n      updating = false\n\nSetting the mode is currently our only option.\n\n    postmaster.options = ({mode}={}) ->\n      if mode?\n        editor.mode mode\n\nExpose a focus method to our parent.\n\n    postmaster.focus = ->\n      editor.focus()\n\n    editor.text.observe (newValue) ->\n      unless updating\n        postmaster.sendToParent\n          value: newValue\n",
+      "content": "Text Editor Value Widget\n========================\n\n    {applyStylesheet} = require \"./util\"\n\nCreate an editor, send events back to parent.\n\n    TextEditor = require \"./text\"\n\n    template = require \"./editor\"\n\n    document.body.appendChild(template())\n\n    el = document.querySelector(\".editor\")\n\n    editor = TextEditor\n      el: el\n\n    applyStylesheet(require \"./style\")\n\nUse the postmaster to send value to our parent, store our current value in it as well.\n\n    updating = false\n    postmaster = require(\"postmaster\")()\n    postmaster.value = (newValue) ->\n      updating = true\n      editor.text(newValue)\n      updating = false\n\nSetting the mode is currently our only option.\n\n    postmaster.options = (options) ->\n      log options\n\n      {mode} = options\n\n      if mode?\n        editor.mode mode\n\nExpose a focus method to our parent.\n\n    postmaster.focus = ->\n      editor.focus()\n\n    editor.text.observe (newValue) ->\n      unless updating\n        postmaster.sendToParent\n          value: newValue\n\n    log = (data) ->\n      postmaster.sendToParent\n        log: data\n",
       "type": "blob"
     },
     "pixie.cson": {
       "path": "pixie.cson",
       "mode": "100644",
-      "content": "version: \"0.1.0-pre.0\"\nremoteDependencies: [\n  \"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n",
+      "content": "version: \"0.1.0\"\nremoteDependencies: [\n  \"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"\n]\ndependencies:\n  observable: \"distri/observable:v0.1.0\"\n  postmaster: \"distri/postmaster:v0.2.2\"\n",
       "type": "blob"
     },
     "style.styl": {
@@ -216,7 +216,7 @@ require('./main')
     "text.coffee.md": {
       "path": "text.coffee.md",
       "mode": "100644",
-      "content": "Text\n====\n\n    {extend, defaults} = require \"./util\"\n    Observable = require \"observable\"\n\n`Text` is a model for editing a text file. Currently it uses the Ace\neditor, but we may switch in the future. All the editor specific things live in\nhere.\n\n    module.exports = (I) ->\n      defaults I,\n        mode: \"coffee\"\n        text: \"\"\n\n      self =\n        text: Observable I.text\n\nWe can't use ace on a div not in the DOM so we need to be sure to pass one in.\n\n      el = I.el\n\nHere we create and configure the Ace text editor.\n\nTODO: Load these options from a preferences somewhere.\n\n      editor = ace.edit(el)\n      editor.setFontSize(\"16px\")\n      editor.setTheme(\"ace/theme/chrome\")\n      editor.getSession().setUseWorker(false)\n      editor.getSession().setMode(\"ace/mode/#{I.mode}\")\n      editor.getSession().setUseSoftTabs(true)\n      editor.getSession().setTabSize(2)\n\n`reset` Sets the content of the editor to the given content and also resets any\ncursor position or selection.\n\n      reset = (content=\"\") ->\n        editor.setValue(content)\n        editor.moveCursorTo(0, 0)\n        editor.session.selection.clearSelection()\n\n      reset(I.text)\n\nWe modify our text by listening to change events from Ace.\n\nTODO: Remove these `updating` hacks.\n\n      updating = false\n      editor.getSession().on 'change', ->\n        updating = true\n        self.text(editor.getValue())\n        updating = false\n\nWe also observe any changes to `text` ourselves to stay up to date with outside\nmodifications. Its a bi-directional binding.\n\n      self.text.observe (newValue) ->\n        unless updating\n          reset(newValue)\n\nWe expose some properties and methods.\n\n      extend self,\n        el: el\n        editor: editor\n        reset: reset\n        focus: ->\n          editor.focus()\n        mode: (mode) ->\n          editor.getSession().setMode(\"ace/mode/#{mode}\")\n\n      return self\n",
+      "content": "Text\n====\n\n    {extend, defaults} = require \"./util\"\n    Observable = require \"observable\"\n\n`Text` is a model for editing a text file. Currently it uses the Ace\neditor, but we may switch in the future. All the editor specific things live in\nhere.\n\n    module.exports = (I) ->\n      defaults I,\n        mode: \"coffee\"\n        text: \"\"\n\n      self =\n        text: Observable I.text\n\nWe can't use ace on a div not in the DOM so we need to be sure to pass one in.\n\n      el = I.el\n\nHere we create and configure the Ace text editor.\n\nTODO: Load these options from a preferences somewhere.\n\n      editor = ace.edit(el)\n      editor.setFontSize(\"16px\")\n      editor.setTheme(\"ace/theme/chrome\")\n      editor.getSession().setUseWorker(false)\n      editor.getSession().setMode(\"ace/mode/#{I.mode}\")\n      editor.getSession().setUseSoftTabs(true)\n      editor.getSession().setTabSize(2)\n\n`reset` Sets the content of the editor to the given content and also resets any\ncursor position or selection.\n\n      reset = (content=\"\") ->\n        editor.setValue(content)\n        editor.moveCursorTo(0, 0)\n        editor.session.selection.clearSelection()\n\n      reset(I.text)\n\nWe modify our text by listening to change events from Ace.\n\nTODO: Remove these `updating` hacks.\n\n      updating = false\n      editor.getSession().on 'change', ->\n        updating = true\n        self.text(editor.getValue())\n        updating = false\n\nWe also observe any changes to `text` ourselves to stay up to date with outside\nmodifications. Its a bi-directional binding.\n\n      self.text.observe (newValue) ->\n        unless updating\n          reset(newValue)\n\nWe expose some properties and methods.\n\n      extend self,\n        el: el\n        editor: editor\n        reset: reset\n        focus: ->\n          editor.focus()\n\n          return\n        mode: (mode) ->\n          editor.getSession().setMode(\"ace/mode/#{mode}\")\n\n          return\n\n      return self\n",
       "type": "blob"
     },
     "util.coffee.md": {
@@ -234,12 +234,12 @@ require('./main')
     },
     "main": {
       "path": "main",
-      "content": "(function() {\n  var TextEditor, applyStylesheet, editor, el, postmaster, template, updating;\n\n  applyStylesheet = require(\"./util\").applyStylesheet;\n\n  TextEditor = require(\"./text\");\n\n  template = require(\"./editor\");\n\n  document.body.appendChild(template());\n\n  el = document.querySelector(\".editor\");\n\n  editor = TextEditor({\n    text: \"Hellow\",\n    el: el\n  });\n\n  applyStylesheet(require(\"./style\"));\n\n  updating = false;\n\n  postmaster = require(\"postmaster\")();\n\n  postmaster.value = function(newValue) {\n    updating = true;\n    editor.text(newValue);\n    return updating = false;\n  };\n\n  postmaster.options = function(_arg) {\n    var mode;\n    mode = (_arg != null ? _arg : {}).mode;\n    if (mode != null) {\n      return editor.mode(mode);\n    }\n  };\n\n  postmaster.focus = function() {\n    return editor.focus();\n  };\n\n  editor.text.observe(function(newValue) {\n    if (!updating) {\n      return postmaster.sendToParent({\n        value: newValue\n      });\n    }\n  });\n\n}).call(this);\n",
+      "content": "(function() {\n  var TextEditor, applyStylesheet, editor, el, log, postmaster, template, updating;\n\n  applyStylesheet = require(\"./util\").applyStylesheet;\n\n  TextEditor = require(\"./text\");\n\n  template = require(\"./editor\");\n\n  document.body.appendChild(template());\n\n  el = document.querySelector(\".editor\");\n\n  editor = TextEditor({\n    el: el\n  });\n\n  applyStylesheet(require(\"./style\"));\n\n  updating = false;\n\n  postmaster = require(\"postmaster\")();\n\n  postmaster.value = function(newValue) {\n    updating = true;\n    editor.text(newValue);\n    return updating = false;\n  };\n\n  postmaster.options = function(options) {\n    var mode;\n    log(options);\n    mode = options.mode;\n    if (mode != null) {\n      return editor.mode(mode);\n    }\n  };\n\n  postmaster.focus = function() {\n    return editor.focus();\n  };\n\n  editor.text.observe(function(newValue) {\n    if (!updating) {\n      return postmaster.sendToParent({\n        value: newValue\n      });\n    }\n  });\n\n  log = function(data) {\n    return postmaster.sendToParent({\n      log: data\n    });\n  };\n\n}).call(this);\n",
       "type": "blob"
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.1.0-pre.0\",\"remoteDependencies\":[\"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\",\"postmaster\":\"distri/postmaster:v0.2.2\"}};",
+      "content": "module.exports = {\"version\":\"0.1.0\",\"remoteDependencies\":[\"https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js\"],\"dependencies\":{\"observable\":\"distri/observable:v0.1.0\",\"postmaster\":\"distri/postmaster:v0.2.2\"}};",
       "type": "blob"
     },
     "style": {
@@ -249,7 +249,7 @@ require('./main')
     },
     "text": {
       "path": "text",
-      "content": "(function() {\n  var Observable, defaults, extend, _ref;\n\n  _ref = require(\"./util\"), extend = _ref.extend, defaults = _ref.defaults;\n\n  Observable = require(\"observable\");\n\n  module.exports = function(I) {\n    var editor, el, reset, self, updating;\n    defaults(I, {\n      mode: \"coffee\",\n      text: \"\"\n    });\n    self = {\n      text: Observable(I.text)\n    };\n    el = I.el;\n    editor = ace.edit(el);\n    editor.setFontSize(\"16px\");\n    editor.setTheme(\"ace/theme/chrome\");\n    editor.getSession().setUseWorker(false);\n    editor.getSession().setMode(\"ace/mode/\" + I.mode);\n    editor.getSession().setUseSoftTabs(true);\n    editor.getSession().setTabSize(2);\n    reset = function(content) {\n      if (content == null) {\n        content = \"\";\n      }\n      editor.setValue(content);\n      editor.moveCursorTo(0, 0);\n      return editor.session.selection.clearSelection();\n    };\n    reset(I.text);\n    updating = false;\n    editor.getSession().on('change', function() {\n      updating = true;\n      self.text(editor.getValue());\n      return updating = false;\n    });\n    self.text.observe(function(newValue) {\n      if (!updating) {\n        return reset(newValue);\n      }\n    });\n    extend(self, {\n      el: el,\n      editor: editor,\n      reset: reset,\n      focus: function() {\n        return editor.focus();\n      },\n      mode: function(mode) {\n        return editor.getSession().setMode(\"ace/mode/\" + mode);\n      }\n    });\n    return self;\n  };\n\n}).call(this);\n",
+      "content": "(function() {\n  var Observable, defaults, extend, _ref;\n\n  _ref = require(\"./util\"), extend = _ref.extend, defaults = _ref.defaults;\n\n  Observable = require(\"observable\");\n\n  module.exports = function(I) {\n    var editor, el, reset, self, updating;\n    defaults(I, {\n      mode: \"coffee\",\n      text: \"\"\n    });\n    self = {\n      text: Observable(I.text)\n    };\n    el = I.el;\n    editor = ace.edit(el);\n    editor.setFontSize(\"16px\");\n    editor.setTheme(\"ace/theme/chrome\");\n    editor.getSession().setUseWorker(false);\n    editor.getSession().setMode(\"ace/mode/\" + I.mode);\n    editor.getSession().setUseSoftTabs(true);\n    editor.getSession().setTabSize(2);\n    reset = function(content) {\n      if (content == null) {\n        content = \"\";\n      }\n      editor.setValue(content);\n      editor.moveCursorTo(0, 0);\n      return editor.session.selection.clearSelection();\n    };\n    reset(I.text);\n    updating = false;\n    editor.getSession().on('change', function() {\n      updating = true;\n      self.text(editor.getValue());\n      return updating = false;\n    });\n    self.text.observe(function(newValue) {\n      if (!updating) {\n        return reset(newValue);\n      }\n    });\n    extend(self, {\n      el: el,\n      editor: editor,\n      reset: reset,\n      focus: function() {\n        editor.focus();\n      },\n      mode: function(mode) {\n        editor.getSession().setMode(\"ace/mode/\" + mode);\n      }\n    });\n    return self;\n  };\n\n}).call(this);\n",
       "type": "blob"
     },
     "util": {
@@ -266,7 +266,7 @@ require('./main')
   "progenitor": {
     "url": "http://strd6.github.io/editor/"
   },
-  "version": "0.1.0-pre.0",
+  "version": "0.1.0",
   "entryPoint": "main",
   "remoteDependencies": [
     "https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"
@@ -335,8 +335,8 @@ require('./main')
     "labels_url": "https://api.github.com/repos/distri/text/labels{/name}",
     "releases_url": "https://api.github.com/repos/distri/text/releases{/id}",
     "created_at": "2014-03-25T00:38:39Z",
-    "updated_at": "2014-03-25T22:26:41Z",
-    "pushed_at": "2014-03-25T22:26:40Z",
+    "updated_at": "2014-03-26T23:57:15Z",
+    "pushed_at": "2014-03-26T23:57:14Z",
     "git_url": "git://github.com/distri/text.git",
     "ssh_url": "git@github.com:distri/text.git",
     "clone_url": "https://github.com/distri/text.git",

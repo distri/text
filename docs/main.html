@@ -56,7 +56,6 @@ document.body.appendChild(template())
 el = document.querySelector(<span class="string">".editor"</span>)
 
 editor = TextEditor
-  text: <span class="string">"Hellow"</span>
   el: el
 
 applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
@@ -90,7 +89,11 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
               <p>Setting the mode is currently our only option.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">options</span></span> = ({mode}={}) -&gt;
+            <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">options</span></span> = (options) -&gt;
+  log options
+
+  {mode} = options
+
   <span class="keyword">if</span> mode?
     editor.mode mode</code></pre>
 </div>
@@ -111,7 +114,11 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 editor.text.observe (newValue) -&gt;
   <span class="keyword">unless</span> updating
     postmaster.sendToParent
-      value: newValue</code></pre>
+      value: newValue
+
+<span class="function"><span class="title">log</span></span> = (data) -&gt;
+  postmaster.sendToParent
+    log: data</code></pre>
 </div>
         </li>
         
