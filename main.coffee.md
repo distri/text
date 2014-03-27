@@ -14,7 +14,6 @@ Create an editor, send events back to parent.
     el = document.querySelector(".editor")
 
     editor = TextEditor
-      text: "Hellow"
       el: el
 
     applyStylesheet(require "./style")
