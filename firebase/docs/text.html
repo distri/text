@@ -122,11 +122,9 @@ cursor position or selection.</p>
 We also need a firebase url.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  <span class="function"><span class="title">initFirebase</span></span> = (firebaseURL, path) -&gt;
+            <div class="content"><pre><code class="lang-coffeescript">  editor.<span class="function"><span class="title">initFirebase</span></span> = (firebaseURL, path) -&gt;
     ref = <span class="keyword">new</span> Firebase(firebaseURL).child(path)
-    Firepad.fromACE ref, editor
-
-  initFirebase(<span class="string">"https://hyperweb-test.firebaseio.com"</span>, <span class="string">"editor-test"</span>)</code></pre>
+    Firepad.fromACE ref, editor</code></pre>
 </div>
         </li>
         

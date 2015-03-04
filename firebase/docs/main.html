@@ -95,10 +95,13 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
             <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">options</span></span> = (options) -&gt;
   log options
 
-  {mode} = options
+  {mode, firebase} = options
 
   <span class="keyword">if</span> mode?
-    editor.mode mode</code></pre>
+    editor.mode mode
+
+  <span class="keyword">if</span> firebase?
+    editor.initFirebase firebase...</code></pre>
 </div>
         </li>
         
