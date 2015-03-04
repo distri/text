@@ -78,9 +78,10 @@ applyStylesheet(require <span class="string">"./style"</span>)</code></pre>
 updating = <span class="literal">false</span>
 postmaster = require(<span class="string">"postmaster"</span>)()
 postmaster.<span class="function"><span class="title">value</span></span> = (newValue) -&gt;
+  log newValue
+
   updating = <span class="literal">true</span>
   <span class="keyword">unless</span> usingFirebase
-    editor.text(newValue)
     editor.reset(newValue)
   updating = <span class="literal">false</span></code></pre>
 </div>
