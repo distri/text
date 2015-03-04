@@ -23,11 +23,14 @@ Create an editor, send events back to parent.
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 
+    usingFirebase = false
     updating = false
     postmaster = require("postmaster")()
     postmaster.value = (newValue) ->
       updating = true
-      editor.text(newValue)
+      unless usingFirebase
+        editor.text(newValue)
+        editor.reset(newValue)
       updating = false
 
 Setting the mode is currently our only option.
@@ -41,9 +44,8 @@ Setting the mode is currently our only option.
         editor.mode mode
 
       if firebase?
+        usingFirebase = true
         editor.initFirebase firebase...
-      else
-        editor.reset editor.text()
 
 Expose a focus method to our parent.
 
