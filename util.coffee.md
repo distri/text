@@ -2,6 +2,12 @@ Util
 ====
 
     module.exports =
+      applyStylesheetLink: (path) ->
+        firepadStyle = document.createElement('link')
+        firepadStyle.href = path
+        firepadStyle.rel = "stylesheet"
+        document.head.appendChild(firepadStyle)
+
       applyStylesheet: (style, id="primary") ->
         styleNode = document.createElement("style")
         styleNode.innerHTML = style

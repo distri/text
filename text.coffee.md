@@ -42,6 +42,15 @@ cursor position or selection.
 
       reset(I.text)
 
+To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
+We also need a firebase url.
+
+      initFirebase = (firebaseURL, path) ->
+        ref = new Firebase(firebaseURL).child(path)
+        Firepad.fromACE ref, editor
+
+      initFirebase("https://hyperweb-test.firebaseio.com", "editor-test")
+
 We modify our text by listening to change events from Ace.
 
 TODO: Remove these `updating` hacks.

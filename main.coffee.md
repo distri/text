@@ -1,7 +1,7 @@
 Text Editor Value Widget
 ========================
 
-    {applyStylesheet} = require "./util"
+    {applyStylesheet, applyStylesheetLink} = require "./util"
 
 Create an editor, send events back to parent.
 
@@ -16,6 +16,9 @@ Create an editor, send events back to parent.
     editor = TextEditor
       el: el
 
+    # TODO: Should add this as a resource is pixie.cson or elsewhere so we can
+    # cache it for offline
+    applyStylesheetLink("https://cdn.firebase.com/libs/firepad/1.1.0/firepad.css")
     applyStylesheet(require "./style")
 
 Use the postmaster to send value to our parent, store our current value in it as well.
