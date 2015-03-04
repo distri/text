@@ -42,6 +42,8 @@ Setting the mode is currently our only option.
 
       if firebase?
         editor.initFirebase firebase...
+      else
+        editor.reset editor.text()
 
 Expose a focus method to our parent.
 

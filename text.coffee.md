@@ -40,24 +40,12 @@ cursor position or selection.
         editor.moveCursorTo(0, 0)
         editor.session.selection.clearSelection()
 
-      reset(I.text)
+We modify our text by listening to change events from Ace. These events
+only flow out, we do not observe changes to text from outside, only through
+Firepad.
 
-We modify our text by listening to change events from Ace.
-
-TODO: Remove these `updating` hacks.
-
-      updating = false
       editor.getSession().on 'change', ->
-        updating = true
         self.text(editor.getValue())
-        updating = false
-
-We also observe any changes to `text` ourselves to stay up to date with outside
-modifications. Its a bi-directional binding.
-
-      self.text.observe (newValue) ->
-        unless updating
-          reset(newValue)
 
 We expose some properties and methods.
 
@@ -79,6 +67,7 @@ We also need a firebase url.
 
         initFirebase: (firebaseURL, path) ->
           ref = new Firebase(firebaseURL).child(path)
-          Firepad.fromACE ref, editor
+          Firepad.fromACE ref, editor,
+            defaultText: self.text()
 
       return self
