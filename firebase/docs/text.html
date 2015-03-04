@@ -106,9 +106,7 @@ cursor position or selection.</p>
             <div class="content"><pre><code class="lang-coffeescript">  <span class="function"><span class="title">reset</span></span> = (content=<span class="string">""</span>) -&gt;
     editor.setValue(content)
     editor.moveCursorTo(<span class="number">0</span>, <span class="number">0</span>)
-    editor.session.selection.clearSelection()
-
-  reset(I.text)</code></pre>
+    editor.session.selection.clearSelection()</code></pre>
 </div>
         </li>
         
@@ -118,15 +116,13 @@ cursor position or selection.</p>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>We modify our text by listening to change events from Ace.</p>
-<p>TODO: Remove these <code>updating</code> hacks.</p>
+              <p>We modify our text by listening to change events from Ace. These events
+only flow out, we do not observe changes to text from outside, only through
+Firepad.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  updating = <span class="literal">false</span>
-  editor.getSession().<span class="literal">on</span> <span class="string">'change'</span>, -&gt;
-    updating = <span class="literal">true</span>
-    self.text(editor.getValue())
-    updating = <span class="literal">false</span></code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">  editor.getSession().<span class="literal">on</span> <span class="string">'change'</span>, -&gt;
+    self.text(editor.getValue())</code></pre>
 </div>
         </li>
         
@@ -135,22 +131,6 @@ cursor position or selection.</p>
             <div class="annotation">
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-8">&#182;</a>
-              </div>
-              <p>We also observe any changes to <code>text</code> ourselves to stay up to date with outside
-modifications. Its a bi-directional binding.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  self.text.observe (newValue) -&gt;
-    <span class="keyword">unless</span> updating
-      reset(newValue)</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-9">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>We expose some properties and methods.</p>
 
@@ -171,10 +151,10 @@ modifications. Its a bi-directional binding.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
 We also need a firebase url.</p>
@@ -182,7 +162,8 @@ We also need a firebase url.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">    initFirebase: (firebaseURL, path) -&gt;
       ref = <span class="keyword">new</span> Firebase(firebaseURL).child(path)
-      Firepad.fromACE ref, editor
+      Firepad.fromACE ref, editor,
+        defaultText: self.text()
 
   <span class="keyword">return</span> self</code></pre>
 </div>
