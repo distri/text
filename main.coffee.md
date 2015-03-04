@@ -35,10 +35,13 @@ Setting the mode is currently our only option.
     postmaster.options = (options) ->
       log options
 
-      {mode} = options
+      {mode, firebase} = options
 
       if mode?
         editor.mode mode
+
+      if firebase?
+        editor.initFirebase firebase...
 
 Expose a focus method to our parent.
 
