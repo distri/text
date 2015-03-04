@@ -27,9 +27,10 @@ Use the postmaster to send value to our parent, store our current value in it as
     updating = false
     postmaster = require("postmaster")()
     postmaster.value = (newValue) ->
+      log newValue
+
       updating = true
       unless usingFirebase
-        editor.text(newValue)
         editor.reset(newValue)
       updating = false
 
