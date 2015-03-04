@@ -118,22 +118,6 @@ cursor position or selection.</p>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
-We also need a firebase url.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  editor.<span class="function"><span class="title">initFirebase</span></span> = (firebaseURL, path) -&gt;
-    ref = <span class="keyword">new</span> Firebase(firebaseURL).child(path)
-    Firepad.fromACE ref, editor</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-8">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-8">&#182;</a>
-              </div>
               <p>We modify our text by listening to change events from Ace.</p>
 <p>TODO: Remove these <code>updating</code> hacks.</p>
 
@@ -147,10 +131,10 @@ We also need a firebase url.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>We also observe any changes to <code>text</code> ourselves to stay up to date with outside
 modifications. Its a bi-directional binding.</p>
@@ -163,10 +147,10 @@ modifications. Its a bi-directional binding.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>We expose some properties and methods.</p>
 
@@ -182,7 +166,23 @@ modifications. Its a bi-directional binding.</p>
     mode: (mode) -&gt;
       editor.getSession().setMode(<span class="string">"ace/mode/<span class="subst">#{mode}</span>"</span>)
 
-      <span class="keyword">return</span>
+      <span class="keyword">return</span></code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
+We also need a firebase url.</p>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">    initFirebase: (firebaseURL, path) -&gt;
+      ref = <span class="keyword">new</span> Firebase(firebaseURL).child(path)
+      Firepad.fromACE ref, editor
 
   <span class="keyword">return</span> self</code></pre>
 </div>
