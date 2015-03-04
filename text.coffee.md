@@ -42,13 +42,6 @@ cursor position or selection.
 
       reset(I.text)
 
-To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
-We also need a firebase url.
-
-      editor.initFirebase = (firebaseURL, path) ->
-        ref = new Firebase(firebaseURL).child(path)
-        Firepad.fromACE ref, editor
-
 We modify our text by listening to change events from Ace.
 
 TODO: Remove these `updating` hacks.
@@ -80,5 +73,12 @@ We expose some properties and methods.
           editor.getSession().setMode("ace/mode/#{mode}")
 
           return
+
+To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
+We also need a firebase url.
+
+        initFirebase: (firebaseURL, path) ->
+          ref = new Firebase(firebaseURL).child(path)
+          Firepad.fromACE ref, editor
 
       return self
