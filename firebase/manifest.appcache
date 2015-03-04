@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# 1425496426434
+
+CACHE:
+index.html
+../firebase.json.js
+https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js
+https://cdn.firebase.com/js/client/2.2.1/firebase.js
+https://cdn.firebase.com/libs/firepad/1.1.0/firepad.min.js
+
+NETWORK:
+https://*
+http://*
+*
