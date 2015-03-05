@@ -79,6 +79,7 @@ updating = <span class="literal">false</span>
 postmaster = require(<span class="string">"postmaster"</span>)()
 postmaster.<span class="function"><span class="title">value</span></span> = (newValue) -&gt;
   log newValue
+  console.log <span class="string">"received"</span>, newValue
 
   updating = <span class="literal">true</span>
   <span class="keyword">unless</span> usingFirebase

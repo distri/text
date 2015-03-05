@@ -104,6 +104,7 @@ cursor position or selection.</p>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">  <span class="function"><span class="title">reset</span></span> = (content=<span class="string">""</span>) -&gt;
+    console.log <span class="string">"resetting"</span>, content
     editor.setValue(content)
     editor.moveCursorTo(<span class="number">0</span>, <span class="number">0</span>)
     editor.session.selection.clearSelection()</code></pre>
