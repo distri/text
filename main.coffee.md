@@ -54,10 +54,14 @@ Expose a focus method to our parent.
     postmaster.focus = ->
       editor.focus()
 
-    editor.text.observe (newValue) ->
+We modify our text by listening to change events from Ace. These events
+only flow out, we do not observe changes to text from outside, only through
+Firepad.
+
+    editor.editor.getSession().on 'change', ->
       unless updating
         postmaster.sendToParent
-          value: newValue
+          value: editor.editor.getValue()
 
     log = (data) ->
       postmaster.sendToParent

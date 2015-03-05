@@ -1,8 +1,7 @@
 Text
 ====
 
-    {extend, defaults} = require "./util"
-    Observable = require "observable"
+    {defaults} = require "./util"
 
 `Text` is a model for editing a text file. Currently it uses the Ace
 editor, but we may switch in the future. All the editor specific things live in
@@ -12,9 +11,6 @@ here.
       defaults I,
         mode: "coffee"
         text: ""
-
-      self =
-        text: Observable I.text
 
 We can't use ace on a div not in the DOM so we need to be sure to pass one in.
 
@@ -41,16 +37,9 @@ cursor position or selection.
         editor.moveCursorTo(0, 0)
         editor.session.selection.clearSelection()
 
-We modify our text by listening to change events from Ace. These events
-only flow out, we do not observe changes to text from outside, only through
-Firepad.
-
-      editor.getSession().on 'change', ->
-        self.text(editor.getValue())
-
 We expose some properties and methods.
 
-      extend self,
+      self =
         el: el
         editor: editor
         reset: reset
@@ -68,7 +57,11 @@ We also need a firebase url.
 
         initFirebase: (firebaseURL, path) ->
           ref = new Firebase(firebaseURL).child(path)
+          defaultText = editor.getValue()
+          self.reset()
           Firepad.fromACE ref, editor,
-            defaultText: self.text()
+            defaultText: defaultText
+
+      self.reset(I.text)
 
       return self
