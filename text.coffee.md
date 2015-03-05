@@ -36,6 +36,7 @@ TODO: Load these options from a preferences somewhere.
 cursor position or selection.
 
       reset = (content="") ->
+        console.log "resetting", content
         editor.setValue(content)
         editor.moveCursorTo(0, 0)
         editor.session.selection.clearSelection()

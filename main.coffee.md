@@ -28,6 +28,7 @@ Use the postmaster to send value to our parent, store our current value in it as
     postmaster = require("postmaster")()
     postmaster.value = (newValue) ->
       log newValue
+      console.log "received", newValue
 
       updating = true
       unless usingFirebase
