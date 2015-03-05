@@ -1,7 +1,7 @@
 Text Editor Value Widget
 ========================
 
-    {applyStylesheet} = require "./util"
+    {applyStylesheet, applyStylesheetLink} = require "./util"
 
 Create an editor, send events back to parent.
 
@@ -16,15 +16,23 @@ Create an editor, send events back to parent.
     editor = TextEditor
       el: el
 
+    # TODO: Should add this as a resource is pixie.cson or elsewhere so we can
+    # cache it for offline
+    applyStylesheetLink("https://cdn.firebase.com/libs/firepad/1.1.0/firepad.css")
     applyStylesheet(require "./style")
 
 Use the postmaster to send value to our parent, store our current value in it as well.
 
+    usingFirebase = false
     updating = false
     postmaster = require("postmaster")()
     postmaster.value = (newValue) ->
+      log newValue
+      console.log "received", newValue
+
       updating = true
-      editor.text(newValue)
+      unless usingFirebase
+        editor.reset(newValue)
       updating = false
 
 Setting the mode is currently our only option.
@@ -32,20 +40,32 @@ Setting the mode is currently our only option.
     postmaster.options = (options) ->
       log options
 
-      {mode} = options
+      {mode, firebase} = options
 
       if mode?
         editor.mode mode
+
+      if firebase?
+        usingFirebase = true
+        updating = true
+        editor.initFirebase firebase...
+        updating = false
 
 Expose a focus method to our parent.
 
     postmaster.focus = ->
       editor.focus()
 
-    editor.text.observe (newValue) ->
+We modify our text by listening to change events from Ace. These events
+only flow out, we do not observe changes to text from outside, only through
+Firepad.
+
+    editor.editor.getSession().on 'change', ->
       unless updating
+        value = editor.editor.getValue()
+        console.log "Sending:", value
         postmaster.sendToParent
-          value: newValue
+          value: value
 
     log = (data) ->
       postmaster.sendToParent

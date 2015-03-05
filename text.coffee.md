@@ -1,8 +1,7 @@
 Text
 ====
 
-    {extend, defaults} = require "./util"
-    Observable = require "observable"
+    {defaults} = require "./util"
 
 `Text` is a model for editing a text file. Currently it uses the Ace
 editor, but we may switch in the future. All the editor specific things live in
@@ -12,9 +11,6 @@ here.
       defaults I,
         mode: "coffee"
         text: ""
-
-      self =
-        text: Observable I.text
 
 We can't use ace on a div not in the DOM so we need to be sure to pass one in.
 
@@ -36,32 +32,14 @@ TODO: Load these options from a preferences somewhere.
 cursor position or selection.
 
       reset = (content="") ->
+        console.log "resetting", content
         editor.setValue(content)
         editor.moveCursorTo(0, 0)
         editor.session.selection.clearSelection()
 
-      reset(I.text)
-
-We modify our text by listening to change events from Ace.
-
-TODO: Remove these `updating` hacks.
-
-      updating = false
-      editor.getSession().on 'change', ->
-        updating = true
-        self.text(editor.getValue())
-        updating = false
-
-We also observe any changes to `text` ourselves to stay up to date with outside
-modifications. Its a bi-directional binding.
-
-      self.text.observe (newValue) ->
-        unless updating
-          reset(newValue)
-
 We expose some properties and methods.
 
-      extend self,
+      self =
         el: el
         editor: editor
         reset: reset
@@ -73,5 +51,17 @@ We expose some properties and methods.
           editor.getSession().setMode("ace/mode/#{mode}")
 
           return
+
+To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
+We also need a firebase url.
+
+        initFirebase: (firebaseURL, path) ->
+          ref = new Firebase(firebaseURL).child(path)
+          defaultText = editor.getValue()
+          self.reset()
+          Firepad.fromACE ref, editor,
+            defaultText: defaultText
+
+      self.reset(I.text)
 
       return self
