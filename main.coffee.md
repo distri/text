@@ -47,7 +47,9 @@ Setting the mode is currently our only option.
 
       if firebase?
         usingFirebase = true
+        updating = true
         editor.initFirebase firebase...
+        updating = false
 
 Expose a focus method to our parent.
 
@@ -60,8 +62,10 @@ Firepad.
 
     editor.editor.getSession().on 'change', ->
       unless updating
+        value = editor.editor.getValue()
+        console.log "Sending:", value
         postmaster.sendToParent
-          value: editor.editor.getValue()
+          value: value
 
     log = (data) ->
       postmaster.sendToParent
