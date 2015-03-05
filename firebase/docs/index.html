@@ -107,7 +107,9 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 
   <span class="keyword">if</span> firebase?
     usingFirebase = <span class="literal">true</span>
-    editor.initFirebase firebase...</code></pre>
+    updating = <span class="literal">true</span>
+    editor.initFirebase firebase...
+    updating = <span class="literal">false</span></code></pre>
 </div>
         </li>
         
@@ -138,8 +140,10 @@ Firepad.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">editor.editor.getSession().<span class="literal">on</span> <span class="string">'change'</span>, -&gt;
   <span class="keyword">unless</span> updating
+    value = editor.editor.getValue()
+    console.log <span class="string">"Sending:"</span>, value
     postmaster.sendToParent
-      value: editor.editor.getValue()
+      value: value
 
 <span class="function"><span class="title">log</span></span> = (data) -&gt;
   postmaster.sendToParent
