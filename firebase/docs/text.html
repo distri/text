@@ -34,8 +34,7 @@
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">{extend, defaults} = require <span class="string">"./util"</span>
-Observable = require <span class="string">"observable"</span></code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">{defaults} = require <span class="string">"./util"</span></code></pre>
 </div>
         </li>
         
@@ -53,10 +52,7 @@ here.</p>
             <div class="content"><pre><code class="lang-coffeescript">module.<span class="function"><span class="title">exports</span></span> = (I) -&gt;
   defaults I,
     mode: <span class="string">"coffee"</span>
-    text: <span class="string">""</span>
-
-  self =
-    text: Observable I.text</code></pre>
+    text: <span class="string">""</span></code></pre>
 </div>
         </li>
         
@@ -117,26 +113,10 @@ cursor position or selection.</p>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>We modify our text by listening to change events from Ace. These events
-only flow out, we do not observe changes to text from outside, only through
-Firepad.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  editor.getSession().<span class="literal">on</span> <span class="string">'change'</span>, -&gt;
-    self.text(editor.getValue())</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-8">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-8">&#182;</a>
-              </div>
               <p>We expose some properties and methods.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  extend self,
+            <div class="content"><pre><code class="lang-coffeescript">  self =
     el: el
     editor: editor
     reset: reset
@@ -152,10 +132,10 @@ Firepad.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>To initialize Firepad we need a unique path for the file i.e. repo/branch/file.
 We also need a firebase url.</p>
@@ -163,8 +143,12 @@ We also need a firebase url.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">    initFirebase: (firebaseURL, path) -&gt;
       ref = <span class="keyword">new</span> Firebase(firebaseURL).child(path)
+      defaultText = editor.getValue()
+      self.reset()
       Firepad.fromACE ref, editor,
-        defaultText: self.text()
+        defaultText: defaultText
+
+  self.reset(I.text)
 
   <span class="keyword">return</span> self</code></pre>
 </div>

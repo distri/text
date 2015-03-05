@@ -121,12 +121,25 @@ postmaster.<span class="function"><span class="title">value</span></span> = (new
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">postmaster.<span class="function"><span class="title">focus</span></span> = -&gt;
-  editor.focus()
+  editor.focus()</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>We modify our text by listening to change events from Ace. These events
+only flow out, we do not observe changes to text from outside, only through
+Firepad.</p>
 
-editor.text.observe (newValue) -&gt;
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">editor.editor.getSession().<span class="literal">on</span> <span class="string">'change'</span>, -&gt;
   <span class="keyword">unless</span> updating
     postmaster.sendToParent
-      value: newValue
+      value: editor.editor.getValue()
 
 <span class="function"><span class="title">log</span></span> = (data) -&gt;
   postmaster.sendToParent
