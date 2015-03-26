@@ -83,9 +83,10 @@ here.</p>
 <p>TODO: Load these options from a preferences somewhere.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  editor = ace.edit(el)
-  editor.setFontSize(<span class="string">"16px"</span>)
-  editor.setTheme(<span class="string">"ace/theme/chrome"</span>)
+            <div class="content"><pre><code class="lang-coffeescript">  tmTheme = <span class="string">"https://raw.githubusercontent.com/zeroelink/TricoloreTheme/master/Tricolore.tmTheme"</span>
+  editor = ace.edit(el)
+  editor.setFontSize(<span class="string">"12px"</span>)
+  editor.setTheme(tmTheme)
   editor.getSession().setUseWorker(<span class="literal">false</span>)
   editor.getSession().setMode(<span class="string">"ace/mode/<span class="subst">#{I.mode}</span>"</span>)
   editor.getSession().setUseSoftTabs(<span class="literal">true</span>)
@@ -105,7 +106,7 @@ cursor position or selection.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">  <span class="function"><span class="title">reset</span></span> = (content=<span class="string">""</span>) -&gt;
     editor.setValue(content)
-    editor.moveCursorTo(<span class="number">0</span>, <span class="number">0</span>)
+    editor.moveCursorTo(<span class="number">0</span>, <span class="number">0</span>) <span class="comment">#TODO: Cursor position per file could be saved locally and we'd put you back where you left off</span>
     editor.session.selection.clearSelection()
 
   reset(I.text)</code></pre>
