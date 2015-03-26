@@ -32,7 +32,7 @@ window["distri/text:early-styles"]({
     },
     "style.styl": {
       "path": "style.styl",
-      "content": "html\n  height: 100%\n\nbody\n  height: 100%\n  margin: 0\n\n.editor\n  font-family: Menlo, Consolas, Monaco, \"Lucida Console\", monospace\n\n.editor-wrap\n  background-color: white\n  width: 100%\n  height: 100%\n  position: relative\n\n  & > div\n    position: absolute\n    top: 0\n    left: 0\n    right: 0\n    bottom: 0\n",
+      "content": "html\n  height: 100%\n\nbody\n  height: 100%\n  margin: 0\n\n.editor\n  font-family: Menlo, Consolas, Monaco, \"Lucida Console\", monospace\n  line-height: 1.4em\n\n.editor-wrap\n  background-color: white\n  width: 100%\n  height: 100%\n  position: relative\n\n  & > div\n    position: absolute\n    top: 0\n    left: 0\n    right: 0\n    bottom: 0\n",
       "mode": "100644",
       "type": "blob"
     },
@@ -67,7 +67,7 @@ window["distri/text:early-styles"]({
     },
     "style": {
       "path": "style",
-      "content": "module.exports = \"html {\\n  height: 100%;\\n}\\n\\nbody {\\n  height: 100%;\\n  margin: 0;\\n}\\n\\n.editor {\\n  font-family: Menlo, Consolas, Monaco, \\\"Lucida Console\\\", monospace;\\n}\\n\\n.editor-wrap {\\n  background-color: white;\\n  width: 100%;\\n  height: 100%;\\n  position: relative;\\n}\\n\\n.editor-wrap > div {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n}\";",
+      "content": "module.exports = \"html {\\n  height: 100%;\\n}\\n\\nbody {\\n  height: 100%;\\n  margin: 0;\\n}\\n\\n.editor {\\n  font-family: Menlo, Consolas, Monaco, \\\"Lucida Console\\\", monospace;\\n  line-height: 1.4em;\\n}\\n\\n.editor-wrap {\\n  background-color: white;\\n  width: 100%;\\n  height: 100%;\\n  position: relative;\\n}\\n\\n.editor-wrap > div {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n}\";",
       "type": "blob"
     },
     "text": {
