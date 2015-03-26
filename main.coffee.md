@@ -27,7 +27,7 @@ Use the postmaster to send value to our parent, store our current value in it as
       editor.text(newValue)
       updating = false
 
-Setting the mode is currently our only option.
+Setting the syntax mode is currently our only option.
 
     postmaster.options = (options) ->
       log options
