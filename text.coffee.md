@@ -23,10 +23,10 @@ We can't use ace on a div not in the DOM so we need to be sure to pass one in.
 Here we create and configure the Ace text editor.
 
 TODO: Load these options from a preferences somewhere.
-
+      tmTheme = "https://raw.githubusercontent.com/zeroelink/TricoloreTheme/master/Tricolore.tmTheme"
       editor = ace.edit(el)
-      editor.setFontSize("16px")
-      editor.setTheme("ace/theme/chrome")
+      editor.setFontSize("12px")
+      editor.setTheme(tmTheme)
       editor.getSession().setUseWorker(false)
       editor.getSession().setMode("ace/mode/#{I.mode}")
       editor.getSession().setUseSoftTabs(true)
@@ -37,7 +37,7 @@ cursor position or selection.
 
       reset = (content="") ->
         editor.setValue(content)
-        editor.moveCursorTo(0, 0)
+        editor.moveCursorTo(0, 0) #TODO: Cursor position per file could be saved locally and we'd put you back where you left off
         editor.session.selection.clearSelection()
 
       reset(I.text)
