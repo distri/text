@@ -198,7 +198,7 @@
     },
     "style.styl": {
       "path": "style.styl",
-      "content": "html\n  height: 100%\n\nbody\n  height: 100%\n  margin: 0\n\n.editor\n  font-family: Menlo, Consolas, Monaco, \"Lucida Console\", monospace\n  line-height: 18px\n\n.editor-wrap\n  background-color: white\n  width: 100%\n  height: 100%\n  position: relative\n\n  & > div\n    position: absolute\n    top: 0\n    left: 0\n    right: 0\n    bottom: 0\n\n// ⛄ gutter styles\n\n.ace_gutter-cell\n  background-color: white\n  // TODO: background gutter cell based on *diff* (so green background = new line)\n  color: #999999\n  font-size: 0.8em\n\n.ace-tm .ace_marker-layer .ace_active-line\n  background-color: #F5F5F5\n\n// TODO: will figure out active line gutter coloring later\n// .ace-tm .ace_gutter-active-line\n//  background-color: pink\n\n.ace_gutter-layer\n  background-color: white",
+      "content": "html\n  height: 100%\n\nbody\n  height: 100%\n  margin: 0\n\n.editor\n  font-family: Menlo, Consolas, Monaco, \"Lucida Console\", monospace\n  line-height: 18px\n\n.editor-wrap\n  background-color: white\n  width: 100%\n  height: 100%\n  position: relative\n\n  & > div\n    position: absolute\n    top: 0\n    left: 0\n    right: 0\n    bottom: 0\n\n// ⛄ gutter styles\n\n.ace_gutter-cell\n  // TODO: background gutter cell based on *diff* (so green background = new line)\n  color: #999999\n  font-size: 0.8em\n\n.ace-tm .ace_marker-layer .ace_active-line\n  background-color: #F5F5F5\n\n// TODO: will figure out active line gutter coloring later\n// .ace-tm .ace_gutter-active-line\n//  background-color: pink\n",
       "mode": "100644",
       "type": "blob"
     },
@@ -233,7 +233,7 @@
     },
     "style": {
       "path": "style",
-      "content": "module.exports = \"html {\\n  height: 100%;\\n}\\n\\nbody {\\n  height: 100%;\\n  margin: 0;\\n}\\n\\n.editor {\\n  font-family: Menlo, Consolas, Monaco, \\\"Lucida Console\\\", monospace;\\n  line-height: 18px;\\n}\\n\\n.editor-wrap {\\n  background-color: white;\\n  width: 100%;\\n  height: 100%;\\n  position: relative;\\n}\\n\\n.editor-wrap > div {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n}\\n\\n.ace_gutter-cell {\\n  background-color: white;\\n  color: #999999;\\n  font-size: 0.8em;\\n}\\n\\n.ace-tm .ace_marker-layer .ace_active-line {\\n  background-color: #F5F5F5;\\n}\\n\\n.ace_gutter-layer {\\n  background-color: white;\\n}\";",
+      "content": "module.exports = \"html {\\n  height: 100%;\\n}\\n\\nbody {\\n  height: 100%;\\n  margin: 0;\\n}\\n\\n.editor {\\n  font-family: Menlo, Consolas, Monaco, \\\"Lucida Console\\\", monospace;\\n  line-height: 18px;\\n}\\n\\n.editor-wrap {\\n  background-color: white;\\n  width: 100%;\\n  height: 100%;\\n  position: relative;\\n}\\n\\n.editor-wrap > div {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  right: 0;\\n  bottom: 0;\\n}\\n\\n.ace_gutter-cell {\\n  color: #999999;\\n  font-size: 0.8em;\\n}\\n\\n.ace-tm .ace_marker-layer .ace_active-line {\\n  background-color: #F5F5F5;\\n}\";",
       "type": "blob"
     },
     "text": {
