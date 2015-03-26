@@ -7,7 +7,7 @@ body
 
 .editor
   font-family: Menlo, Consolas, Monaco, "Lucida Console", monospace
-  line-height: 1.4em
+  line-height: 18px
 
 .editor-wrap
   background-color: white
@@ -21,3 +21,20 @@ body
     left: 0
     right: 0
     bottom: 0
+
+// ⛄ gutter styles
+
+.ace_gutter-cell
+  background-color: white
+  // TODO: background gutter cell based on *diff* (so green background = new line)
+  color: #999999
+  font-size: 0.8em
+
+.ace-tm .ace_marker-layer .ace_active-line
+  background-color: #F5F5F5
+  
+.ace-tm .ace_gutter-active-line
+  background-color: red
+
+.ace_gutter-layer
+  background-color: white
