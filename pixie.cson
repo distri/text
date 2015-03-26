@@ -1,6 +1,6 @@
 version: "0.1.1"
 remoteDependencies: [
-  "https://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"
+  "https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"
 ]
 dependencies:
   observable: "distri/observable:v0.1.0"
