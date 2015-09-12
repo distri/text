@@ -27,7 +27,7 @@ extend postmaster,
 # Handle File Drops
 dropReader = require "./lib/drop"
 
-dropReader document.documentElement, (data) ->
+dropReader document, (data) ->
   postmaster.invokeParent "title", data.path
   textarea.value = data.content
 
