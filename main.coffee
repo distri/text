@@ -28,7 +28,7 @@ extend postmaster,
 dropReader = require "./lib/drop"
 
 dropReader document.documentElement, (data) ->
-  invokeParent "title", data.path
+  postmaster.invokeParent "title", data.path
   textarea.value = data.content
 
 # TODO: Track dirty for beforeUnload event
