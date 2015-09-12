@@ -203,7 +203,7 @@
     },
     "lib/drop.coffee": {
       "path": "lib/drop.coffee",
-      "content": "module.exports = (element, handler) ->\n  cancel = (e) ->\n    e.preventDefault()\n\n    return false\n\n  element.addEventListener \"dragover\", cancel\n  element.addEventListener \"dragenter\", cancel\n  element.addEventListener \"drop\", (e) ->\n    e.preventDefault()\n\n    global.dataTransfer = e.dataTransfer\n    console.log e.dataTransfer.getData(\"text/html\")\n\n    # Only handle Whimsy File Drops\n    data = e.dataTransfer.getData('application/whimsy-file')\n    if data\n      handler JSON.parse(data)\n\n    return false\n",
+      "content": "module.exports = (element, handler) ->\n  cancel = (e) ->\n    console.log \"CANCEL:\", e\n    e.preventDefault()\n\n    return false\n\n  element.addEventListener \"dragover\", cancel\n  element.addEventListener \"dragenter\", cancel\n  element.addEventListener \"drop\", (e) ->\n    e.preventDefault()\n\n    global.dataTransfer = e.dataTransfer\n    console.log e.dataTransfer.getData(\"text/html\")\n\n    # Only handle Whimsy File Drops\n    data = e.dataTransfer.getData('application/whimsy-file')\n    if data\n      handler JSON.parse(data)\n\n    return false\n",
       "mode": "100644"
     }
   },
@@ -230,7 +230,7 @@
     },
     "lib/drop": {
       "path": "lib/drop",
-      "content": "(function() {\n  module.exports = function(element, handler) {\n    var cancel;\n    cancel = function(e) {\n      e.preventDefault();\n      return false;\n    };\n    element.addEventListener(\"dragover\", cancel);\n    element.addEventListener(\"dragenter\", cancel);\n    return element.addEventListener(\"drop\", function(e) {\n      var data;\n      e.preventDefault();\n      global.dataTransfer = e.dataTransfer;\n      console.log(e.dataTransfer.getData(\"text/html\"));\n      data = e.dataTransfer.getData('application/whimsy-file');\n      if (data) {\n        handler(JSON.parse(data));\n      }\n      return false;\n    });\n  };\n\n}).call(this);\n",
+      "content": "(function() {\n  module.exports = function(element, handler) {\n    var cancel;\n    cancel = function(e) {\n      console.log(\"CANCEL:\", e);\n      e.preventDefault();\n      return false;\n    };\n    element.addEventListener(\"dragover\", cancel);\n    element.addEventListener(\"dragenter\", cancel);\n    return element.addEventListener(\"drop\", function(e) {\n      var data;\n      e.preventDefault();\n      global.dataTransfer = e.dataTransfer;\n      console.log(e.dataTransfer.getData(\"text/html\"));\n      data = e.dataTransfer.getData('application/whimsy-file');\n      if (data) {\n        handler(JSON.parse(data));\n      }\n      return false;\n    });\n  };\n\n}).call(this);\n",
       "type": "blob"
     }
   },
