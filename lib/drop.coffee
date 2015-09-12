@@ -1,5 +1,6 @@
 module.exports = (element, handler) ->
   cancel = (e) ->
+    console.log "CANCEL:", e
     e.preventDefault()
 
     return false
