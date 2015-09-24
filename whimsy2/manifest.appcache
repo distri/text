@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 1443052799223
+
+CACHE:
+index.html
+../whimsy2.json.js
+
+
+NETWORK:
+https://*
+http://*
+*
