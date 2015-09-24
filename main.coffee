@@ -21,6 +21,7 @@ self =
     textarea.focus()
 
 Postmaster({}, self)
+self.invokeRemote "childLoaded"
 
 # Handle File Drops
 dropReader = require "./lib/drop"
