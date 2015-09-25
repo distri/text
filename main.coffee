@@ -1,5 +1,7 @@
 {extend, applyStylesheet} = require "./util"
 
+global.Ajax = require "./lib/ajax"
+
 applyStylesheet(require "./style")
 
 textarea = document.createElement("textarea")
@@ -27,7 +29,22 @@ self.invokeRemote "childLoaded"
 dropReader = require "./lib/drop"
 
 dropReader document, (e) ->
-  file = e.dataTransfer.files[0]
+  jsonText = e.dataTransfer.getData("application/whimsy-file+json")
+  if jsonText
+    fileData = JSON.parse(jsonText)
+
+    {content, url, path, type} = fileData
+
+    if content
+      file = new File [content], path, type: type
+    else if url
+      Ajax.getBlob(url)
+      .then (blob) ->
+        blob.name = path
+
+        self.loadFile(blob)
+  else
+    file = e.dataTransfer.files[0]
 
   if file
     self.loadFile(file)
