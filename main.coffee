@@ -18,6 +18,14 @@ self =
       setPath file.name
       textarea.value = text
 
+  # We need to implement saveState and restoreState if we want to be able to
+  # persist across popping the window in and out.
+  saveState: ->
+    textarea.value
+
+  restoreState: (state) ->
+    textarea.value = state
+
   focus: ->
     textarea.focus()
 
@@ -39,8 +47,11 @@ readFile = (file, method="readAsText") ->
 Postmaster = require("postmaster")
 Postmaster({}, self)
 
+# Apps must call childLoaded if they want to receive state/file data from OS
 self.invokeRemote "childLoaded"
 
+# whimsy-file may return the link to the file data as a URL so we need to be
+# able to download the contents
 Ajax = require "./lib/ajax"
 
 # Handle File Drops
