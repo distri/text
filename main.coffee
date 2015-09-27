@@ -86,5 +86,5 @@ document.addEventListener "keydown", (e) ->
         newPath = prompt "Path", filePath
         setPath(newPath) if newPath
 
-      file = new File [textarea.value], filePath, type: "text/plain"
-      self.invokeRemote "saveFile", file
+      file = new Blob [textarea.value], type: "text/plain"
+      self.invokeRemote "saveFile", file, path
