@@ -75,8 +75,6 @@ window.onbeforeunload = ->
   if dirty
     "You have unsaved changes, are you sure you want to leave?"
 
-# TODO: Prompt if overwriting when dirty
-
 # -------------------------------------------------
 # From here on down is our Whimsy.space integration
 Postmaster = require("postmaster")
