@@ -29,6 +29,9 @@ updateTitle = ->
 
 self =
   loadFile: (file) ->
+    if dirty
+      return unless confirm "You have unsaved changes, are you sure you want to overwrite them?"
+
     readFile(file)
     .then (text) ->
       textarea.value = text
@@ -72,7 +75,6 @@ window.onbeforeunload = ->
   if dirty
     "You have unsaved changes, are you sure you want to leave?"
 
-# TODO: Clear dirty on parent save resolution
 # TODO: Prompt if overwriting when dirty
 
 # -------------------------------------------------
