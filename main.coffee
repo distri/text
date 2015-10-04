@@ -41,6 +41,7 @@ self =
     self.invokeRemote "saveFile", file, filePath
     .then ->
       dirty = false
+      updateTitle()
 
   # We need to implement saveState and restoreState if we want to be able to
   # persist across popping the window in and out.
