@@ -2,29 +2,62 @@
 
 applyStylesheet(require "./style")
 
+dirty = false
+
 textarea = document.createElement("textarea")
 document.body.appendChild(textarea)
 textarea.focus()
 
+textarea.oninput = ->
+  dirty = true
+  updateTitle()
+
 filePath = "New File.txt"
 setPath = (newPath) ->
-  document.title = filePath = newPath
-  self.invokeRemote "title", filePath
+  filePath = newPath
+  updateTitle()
+
+updateTitle = ->
+  prefix = if dirty
+    "*"
+  else
+    ""
+
+  title = "#{prefix}#{filePath}"
+  document.title = title
+  self.invokeRemote "title", title
 
 self =
   loadFile: (file) ->
+    if dirty
+      return unless confirm "You have unsaved changes, are you sure you want to overwrite them?"
+
     readFile(file)
     .then (text) ->
-      setPath file.name
       textarea.value = text
+      dirty = false
+      setPath file.name
+
+  save: ->
+    file = new Blob [textarea.value],
+      type: "text/plain"
+    self.invokeRemote "saveFile", file, filePath
+    .then ->
+      dirty = false
+      updateTitle()
 
   # We need to implement saveState and restoreState if we want to be able to
   # persist across popping the window in and out.
   saveState: ->
-    textarea.value
+    value: textarea.value
+    dirty: dirty
+    filePath: filePath
 
   restoreState: (state) ->
-    textarea.value = state
+    textarea.value = state.value
+    dirty = state.dirty
+    filePath = state.filePath
+    updateTitle()
 
   focus: ->
     textarea.focus()
@@ -38,9 +71,9 @@ readFile = (file, method="readAsText") ->
     reader.onerror = reject
     reader[method](file)
 
-# TODO: Track dirty for beforeUnload event
-# TODO: Clear dirty on parent save resolution
-# TODO: Prompt if overwriting when dirty
+window.onbeforeunload = ->
+  if dirty
+    "You have unsaved changes, are you sure you want to leave?"
 
 # -------------------------------------------------
 # From here on down is our Whimsy.space integration
@@ -77,6 +110,9 @@ dropReader document, (e) ->
   if file
     self.loadFile(file)
 
+document.addEventListener "mousedown", ->
+  self.invokeRemote "focus"
+
 document.addEventListener "keydown", (e) ->
   if e.ctrlKey
     if e.keyCode is 83 # s
@@ -86,5 +122,4 @@ document.addEventListener "keydown", (e) ->
         newPath = prompt "Path", filePath
         setPath(newPath) if newPath
 
-      file = new Blob [textarea.value], type: "text/plain"
-      self.invokeRemote "saveFile", file, path
+      self.save()
