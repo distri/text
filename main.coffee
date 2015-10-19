@@ -110,6 +110,9 @@ dropReader document, (e) ->
   if file
     self.loadFile(file)
 
+document.addEventListener "mousedown", ->
+  self.invokeRemote "focus"
+
 document.addEventListener "keydown", (e) ->
   if e.ctrlKey
     if e.keyCode is 83 # s
